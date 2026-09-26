@@ -1,0 +1,234 @@
+:root {
+  --admin-bg: #070D1E;
+  --admin-sidebar-bg: #0A1329;
+  --admin-card-bg: #0F1D3F;
+  --admin-border: rgba(255, 255, 255, 0.08);
+  --admin-gold: #F59E0B;
+  --admin-blue: #2563EB;
+}
+
+body.admin-body {
+  background-color: var(--admin-bg);
+  color: #F8FAFC;
+  direction: rtl;
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+}
+
+/* شاشة تسجيل الدخول */
+.login-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #0F2356, #000B1E);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 16px;
+}
+
+.login-card {
+  background: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  padding: 30px 24px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.login-logo img {
+  height: 50px;
+  margin-bottom: 12px;
+}
+
+/* Layout */
+.admin-wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+.admin-sidebar {
+  width: 260px;
+  background: var(--admin-sidebar-bg);
+  border-left: 1px solid var(--admin-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid var(--admin-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-menu {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.menu-item {
+  background: none;
+  border: none;
+  color: #94A3B8;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  width: 100%;
+  text-align: right;
+  transition: background 0.2s, color 0.2s;
+}
+
+.menu-item.active, .menu-item:hover {
+  background: var(--admin-blue);
+  color: #FFF;
+}
+
+.menu-item.logout {
+  margin-top: auto;
+  color: #EF4444;
+}
+
+.admin-main {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.admin-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.stat-icon {
+  background: rgba(37, 99, 235, 0.2);
+  color: #60A5FA;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--admin-card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.admin-table th, .admin-table td {
+  padding: 14px;
+  text-align: right;
+  border-bottom: 1px solid var(--admin-border);
+  font-size: 0.9rem;
+}
+
+.table-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.field-error {
+  color: #EF4444;
+  font-size: 0.8rem;
+  margin-top: 4px;
+  display: block;
+}
+
+.dropzone {
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  padding: 24px;
+  text-align: center;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.file-hidden {
+  display: none;
+}
+
+.image-previews-list {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.preview-thumb-wrap {
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+
+.preview-thumb-wrap img {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.preview-thumb-wrap .del-thumb {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  background: #EF4444;
+  color: #FFF;
+  border: none;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+/* Responsive للجوال */
+@media (max-width: 768px) {
+  .admin-sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 2000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
+
+  .admin-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .table-container {
+    overflow-x: auto;
+  }
+}

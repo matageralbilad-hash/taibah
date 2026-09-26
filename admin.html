@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة الإدارة | محلات أنوار طيبة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+
+  <!-- شاشة الدخول للإدارة -->
+  <div id="admin-login-overlay" class="login-overlay">
+    <div class="login-card">
+      <div class="login-logo">
+        <img src="assets/LOGO.PNG" alt="أنوار طيبة" onerror="this.src='https://placehold.co/120x45/001A3F/FFF?text=أنوار+طيبة'">
+      </div>
+      <h2>دخول لوحة التحكم</h2>
+      <p>محلات أنوار طيبة - الإدارة</p>
+      <form id="admin-login-form">
+        <div class="form-group">
+          <label>رمز الدخول السري:</label>
+          <input type="password" id="admin-pass" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn-primary w-full">تسجيل الدخول</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- الهيكل الرئيسي للوحة التحكم -->
+  <div id="admin-app" class="admin-wrapper hidden">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar" id="admin-sidebar">
+      <div class="sidebar-header">
+        <h3>أنوار طيبة - الإدارة</h3>
+        <button id="close-sidebar-btn" class="mobile-only-btn"><i data-lucide="x"></i></button>
+      </div>
+      <nav class="sidebar-menu">
+        <button class="menu-item active" data-tab="tab-products"><i data-lucide="package"></i> المنتجات</button>
+        <button class="menu-item" data-tab="tab-orders"><i data-lucide="shopping-cart"></i> الطلبات والموصلين</button>
+        <button class="menu-item" data-tab="tab-banners"><i data-lucide="image"></i> البانرات والواجهة</button>
+        <button class="menu-item logout" id="admin-logout-btn"><i data-lucide="log-out"></i> خروج</button>
+      </nav>
+    </aside>
+
+    <!-- المحتوى المركزي -->
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <button id="open-sidebar-btn" class="sidebar-toggle"><i data-lucide="menu"></i></button>
+        <h2>لوحة القيادة</h2>
+        <a href="index.html" target="_blank" class="store-link-btn"><i data-lucide="external-link"></i> مشاهدة المتجر</a>
+      </header>
+
+      <!-- بطاقات الإحصائيات -->
+      <section class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon"><i data-lucide="package"></i></div>
+          <div>
+            <span class="stat-title">إجمالي المنتجات</span>
+            <h4 id="stat-products-count">0</h4>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i data-lucide="clock"></i></div>
+          <div>
+            <span class="stat-title">طلبات قيد المتابعة</span>
+            <h4 id="stat-pending-orders">0</h4>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i data-lucide="check-circle"></i></div>
+          <div>
+            <span class="stat-title">الطلبات المكتملة</span>
+            <h4 id="stat-completed-orders">0</h4>
+          </div>
+        </div>
+      </section>
+
+      <!-- تبويب 1: إدارة المنتجات -->
+      <section id="tab-products" class="admin-section active">
+        <div class="section-actions">
+          <h3>قائمة المنتجات</h3>
+          <button id="open-add-product-modal" class="btn-primary"><i data-lucide="plus"></i> إضافة منتج جديد</button>
+        </div>
+        <div class="table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>الصورة</th>
+                <th>اسم المنتج</th>
+                <th>الأقسام</th>
+                <th>السعر</th>
+                <th>العرض</th>
+                <th>المخزون</th>
+                <th>إجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="admin-products-table-body">
+              <!-- الصفوف تحقن من Firebase -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- تبويب 2: إدارة الطلبات والموصلين -->
+      <section id="tab-orders" class="admin-section hidden">
+        <h3>إدارة الطلبات والموصلين</h3>
+        <div class="orders-list-admin" id="admin-orders-list">
+          <!-- كروت الطلبات -->
+        </div>
+      </section>
+
+      <!-- تبويب 3: إضافة وتعديل البانرات -->
+      <section id="tab-banners" class="admin-section hidden">
+        <div class="section-actions">
+          <h3>سلايدر الصفحة الرئيسية</h3>
+          <button id="open-add-banner-modal" class="btn-primary"><i data-lucide="plus"></i> إضافة بانر</button>
+        </div>
+        <div class="banners-grid" id="admin-banners-grid"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Modal: إضافة / تعديل منتج -->
+  <div id="product-form-modal" class="modal-overlay hidden">
+    <div class="modal-sheet admin-sheet">
+      <div class="sheet-header">
+        <h3 id="product-form-title">إضافة منتج جديد</h3>
+        <button id="close-product-form" class="modal-close-btn"><i data-lucide="x"></i></button>
+      </div>
+      <form id="product-form">
+        <input type="hidden" id="prod-edit-id">
+        
+        <div class="form-group">
+          <label>اسم المنتج *</label>
+          <input type="text" id="prod-name" required placeholder="مثال: خلاط فيليبس 500 واط">
+        </div>
+
+        <div class="form-group">
+          <label>الوصف التفصيلي *</label>
+          <textarea id="prod-desc" rows="3" required placeholder="اكتب مواصفات المنتج ومميزاته..."></textarea>
+        </div>
+
+        <!-- اختيار الأقسام (1 إلى 3 بحد أقصى) -->
+        <div class="form-group">
+          <label>التصنيفات (اختر من 1 إلى 3 تصنيفات فقط) *</label>
+          <div class="checkbox-group" id="cat-checkboxes">
+            <label><input type="checkbox" name="categories" value="الأجهزة المنزلية اليومية"> الأجهزة المنزلية اليومية</label>
+            <label><input type="checkbox" name="categories" value="الأجهزة الإلكترونية"> الأجهزة الإلكترونية</label>
+            <label><input type="checkbox" name="categories" value="الساعات وغيرها"> الساعات وغيرها</label>
+            <label><input type="checkbox" name="categories" value="الكهربائيات"> الكهربائيات</label>
+            <label><input type="checkbox" name="categories" value="أجهزة المطبخ"> أجهزة المطبخ</label>
+          </div>
+          <span id="cat-warning" class="field-error hidden">الحد الأقصى هو 3 تصنيفات فقط!</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label>السعر الأساسي (ريال) *</label>
+            <input type="number" id="prod-price" required min="1">
+          </div>
+          <div class="form-group flex-1">
+            <label>الكمية في المخزون *</label>
+            <input type="number" id="prod-stock" required min="0" value="10">
+          </div>
+        </div>
+
+        <!-- إعدادات العرض والتخفيض -->
+        <div class="form-group">
+          <label>هل يوجد عرض تخفيض؟</label>
+          <select id="prod-sale-enabled">
+            <option value="no">لا</option>
+            <option value="yes">نعم</option>
+          </select>
+        </div>
+
+        <div id="sale-fields" class="form-row hidden">
+          <div class="form-group flex-1">
+            <label>سعر العرض (ريال)</label>
+            <input type="number" id="prod-sale-price" min="1">
+          </div>
+          <div class="form-group flex-1">
+            <label>مدة العرض</label>
+            <select id="prod-sale-duration">
+              <option value="1h">1 ساعة</option>
+              <option value="2h">2 ساعة</option>
+              <option value="5h">5 ساعات</option>
+              <option value="1d">يوم</option>
+              <option value="2d">يومان</option>
+              <option value="1w">أسبوع</option>
+              <option value="1m">شهر</option>
+              <option value="forever">إلى الأبد</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- منطقة رفع الصور المتعددة الآمنة -->
+        <div class="form-group">
+          <label>صور المنتج (Drag & Drop أو إدخال روابط آمنة)</label>
+          <div class="dropzone" id="images-dropzone">
+            <i data-lucide="upload-cloud"></i>
+            <p>اسحب الصور هنا أو اضغط لاختيار ملفات</p>
+            <input type="file" id="prod-file-input" multiple accept="image/*" class="file-hidden">
+          </div>
+          <div id="image-previews-list" class="image-previews-list"></div>
+        </div>
+
+        <div class="form-group">
+          <label>ملاحظات إضافية (اختياري)</label>
+          <input type="text" id="prod-notes" placeholder="ملاحظات تظهر للإدارة والعميل">
+        </div>
+
+        <button type="submit" class="btn-primary w-full">حفظ المنتج</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="admin-toast-container" class="toast-container"></div>
+
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>

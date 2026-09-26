@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>محلات أنوار طيبة | الأجهزة الكهربائية والإلكترونيات</title>
+  
+  <!-- تحسين الخطوط والأداء -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- شاشة البداية السريعة الفخمة (Intro Screen) -->
+  <div id="intro-screen" class="intro-screen">
+    <div class="intro-content">
+      <div class="character-illustration">
+        <!-- SVG لشخصية الرجل الأنيق الجالس ثم يقف مشيراً للمحل -->
+        <svg class="char-svg" viewBox="0 0 120 160" width="120" height="160">
+          <g class="man-body">
+            <circle cx="60" cy="30" r="18" fill="#F8FAFC"/>
+            <path d="M42 55 C42 48, 78 48, 78 55 L82 105 L38 105 Z" fill="#1E3A8A"/>
+            <!-- الذراع المشيرة -->
+            <path class="pointing-arm" d="M78 60 L105 45 L112 40" stroke="#F8FAFC" stroke-width="6" stroke-linecap="round"/>
+            <!-- الأرجل مع الأنيميشن -->
+            <path class="legs" d="M46 105 L44 145 M74 105 L76 145" stroke="#0F172A" stroke-width="8" stroke-linecap="round"/>
+          </g>
+        </svg>
+      </div>
+      <div class="brand-reveal">
+        <h1 class="intro-title">محلات أنوار طيبة</h1>
+        <p class="intro-subtitle">عالمك الأول للأجهزة الكهربائية والإلكترونيات</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- التطبيق الرئيسي -->
+  <div id="app" class="app-layout">
+    
+    <!-- HEADER -->
+    <header class="main-header">
+      <div class="header-top">
+        <div class="logo-wrapper">
+          <img src="assets/LOGO.PNG" alt="شعار محلات أنوار طيبة" class="main-logo" onerror="this.src='https://placehold.co/120x45/001A3F/FFF?text=أنوار+طيبة'">
+        </div>
+        <div class="store-badge">
+          <span>وجهتك الموثوقة</span>
+        </div>
+      </div>
+      <p class="store-bio">أنوار طيبة — وجهتك للأجهزة الكهربائية، الإلكترونيات، الساعات، الديكورات وأكثر.</p>
+      
+      <!-- SEARCH BAR -->
+      <div class="search-container">
+        <div class="search-input-wrapper">
+          <i data-lucide="search" class="search-icon"></i>
+          <input type="text" id="main-search-input" placeholder="ابحث عن جوال، ساعة، تلفزيون، ثلاجة، لمبة..." autocomplete="off">
+          <button id="clear-search-btn" class="clear-search hidden"><i data-lucide="x"></i></button>
+        </div>
+      </div>
+    </header>
+
+    <!-- منطقة عرض نتائج البحث المباشرة -->
+    <section id="search-results-section" class="search-results-container hidden">
+      <div class="results-header">
+        <h3 id="search-results-count">نتائج البحث</h3>
+        <button id="close-search-btn" class="close-search-text">إغلاق البحث</button>
+      </div>
+      <div id="search-results-grid" class="products-grid"></div>
+      <div id="search-empty-state" class="empty-state hidden">
+        <i data-lucide="package-search" class="empty-icon"></i>
+        <h4>لم نجد منتجات مطابقة لبحثك</h4>
+        <p>جرّب كتابة كلمة أخرى أو تأكد من صحة الحروف</p>
+      </div>
+    </section>
+
+    <!-- المحتوى الافتراضي للصفحة الرئيسية -->
+    <main id="home-main-content">
+      
+      <!-- BANNER / SLIDER -->
+      <section class="banner-section">
+        <div class="slider-container" id="slider-container">
+          <div class="slider-track" id="slider-track">
+            <!-- البانرات تأتي مباشرة من Firebase أو البانرات الافتراضية -->
+            <div class="slide active">
+              <img src="assets/JAJA.JPG" alt="أحدث الأجهزة الإلكترونية" onerror="this.src='https://placehold.co/800x400/021944/FFF?text=عروض+أنوار+طيبة'">
+              <div class="slide-overlay">
+                <h3>أقوى الأجهزة الإلكترونية والهواتف</h3>
+                <p>بأفضل الأسعار والضمانات الحقيقية</p>
+              </div>
+            </div>
+          </div>
+          <button class="slider-btn prev" id="slider-prev" aria-label="السابق"><i data-lucide="chevron-right"></i></button>
+          <button class="slider-btn next" id="slider-next" aria-label="التالي"><i data-lucide="chevron-left"></i></button>
+          <div class="slider-indicators" id="slider-indicators"></div>
+        </div>
+      </section>
+
+      <!-- الأقسام والرفوف الرئيسية (Shelves) -->
+      <div id="shelves-wrapper" class="shelves-wrapper">
+        
+        <!-- رف 1: الأجهزة المنزلية اليومية -->
+        <section class="shelf-section" data-category="الأجهزة المنزلية اليومية">
+          <div class="shelf-banner" style="background-image: linear-gradient(to top, rgba(2, 25, 68, 0.9), rgba(2, 25, 68, 0.2)), url('assets/HOME.JPG');">
+            <div class="shelf-info">
+              <h2>الأجهزة المنزلية اليومية</h2>
+              <p>مكانس، مكاوي، دفايات، ومستلزمات الراحة اليومية</p>
+            </div>
+            <button class="view-all-btn" data-cat="الأجهزة المنزلية اليومية">عرض الكل</button>
+          </div>
+          <div class="shelf-products-carousel" id="shelf-home">
+            <!-- المنتجات هنا -->
+          </div>
+        </section>
+
+        <!-- رف 2: الأجهزة الإلكترونية -->
+        <section class="shelf-section" data-category="الأجهزة الإلكترونية">
+          <div class="shelf-banner" style="background-image: linear-gradient(to top, rgba(2, 25, 68, 0.9), rgba(2, 25, 68, 0.2)), url('assets/JAJA.JPG');">
+            <div class="shelf-info">
+              <h2>الأجهزة الإلكترونية</h2>
+              <p>جوالات، ملحقات ذكية، شاشات، وأحدث التقنيات</p>
+            </div>
+            <button class="view-all-btn" data-cat="الأجهزة الإلكترونية">عرض الكل</button>
+          </div>
+          <div class="shelf-products-carousel" id="shelf-electronics"></div>
+        </section>
+
+        <!-- رف 3: الساعات وغيرها -->
+        <section class="shelf-section" data-category="الساعات وغيرها">
+          <div class="shelf-banner" style="background-image: linear-gradient(to top, rgba(2, 25, 68, 0.9), rgba(2, 25, 68, 0.2)), url('assets/SAT.J.PG');">
+            <div class="shelf-info">
+              <h2>الساعات وغيرها</h2>
+              <p>ساعات فاخرة، ساعات ذكية، وإكسسوارات أنيقة</p>
+            </div>
+            <button class="view-all-btn" data-cat="الساعات وغيرها">عرض الكل</button>
+          </div>
+          <div class="shelf-products-carousel" id="shelf-watches"></div>
+        </section>
+
+        <!-- رف 4: الكهربائيات -->
+        <section class="shelf-section" data-category="الكهربائيات">
+          <div class="shelf-banner" style="background-image: linear-gradient(to top, rgba(2, 25, 68, 0.9), rgba(2, 25, 68, 0.2)), url('assets/khi.jpg');">
+            <div class="shelf-info">
+              <h2>الكهربائيات</h2>
+              <p>توصيلات معتمدة، إضاءات حديثة، وكهربائيات التأسيس</p>
+            </div>
+            <button class="view-all-btn" data-cat="الكهربائيات">عرض الكل</button>
+          </div>
+          <div class="shelf-products-carousel" id="shelf-electrical"></div>
+        </section>
+
+        <!-- رف 5: أجهزة المطبخ -->
+        <section class="shelf-section" data-category="أجهزة المطبخ">
+          <div class="shelf-banner" style="background-image: linear-gradient(to top, rgba(2, 25, 68, 0.9), rgba(2, 25, 68, 0.2)), url('assets/kth.jpg');">
+            <div class="shelf-info">
+              <h2>أجهزة المطبخ</h2>
+              <p>خلاطات، قلايات هوائية، أفران ومحضرات طعام</p>
+            </div>
+            <button class="view-all-btn" data-cat="أجهزة المطبخ">عرض الكل</button>
+          </div>
+          <div class="shelf-products-carousel" id="shelf-kitchen"></div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- شاشة تفاصيل المنتج (Product Details Modal) -->
+    <div id="product-modal" class="modal-overlay hidden">
+      <div class="modal-sheet">
+        <button id="close-modal-btn" class="modal-close-btn" aria-label="إغلاق"><i data-lucide="x"></i></button>
+        <div class="modal-content-scroll" id="modal-content">
+          <!-- تفاصيل المنتج تحقن هنا ديناميكياً -->
+        </div>
+      </div>
+    </div>
+
+    <!-- شاشة السلة والدفع (Cart Sheet) -->
+    <div id="cart-modal" class="modal-overlay hidden">
+      <div class="modal-sheet cart-sheet">
+        <div class="sheet-header">
+          <h3><i data-lucide="shopping-bag"></i> سلة المشتريات</h3>
+          <button id="close-cart-btn" class="modal-close-btn"><i data-lucide="x"></i></button>
+        </div>
+        <div class="cart-items-list" id="cart-items-container">
+          <!-- عناصر السلة -->
+        </div>
+        <div class="cart-summary" id="cart-summary">
+          <div class="summary-row">
+            <span>الإجمالي:</span>
+            <span id="cart-total-price" class="total-amount">0 ريال</span>
+          </div>
+          <div class="checkout-actions">
+            <button id="open-checkout-btn" class="btn-primary w-full">إتمام الشراء</button>
+            <button id="view-orders-history-btn" class="btn-secondary w-full">المشتريات السابقة</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- نافذة إتمام الطلب (Checkout Modal) -->
+    <div id="checkout-modal" class="modal-overlay hidden">
+      <div class="modal-sheet checkout-sheet">
+        <div class="sheet-header">
+          <h3>خيارات الاستلام والدفع</h3>
+          <button id="close-checkout-btn" class="modal-close-btn"><i data-lucide="x"></i></button>
+        </div>
+        <div class="checkout-methods">
+          <button class="method-btn active" id="tab-pickup">الاستلام من المحل</button>
+          <button class="method-btn" id="tab-delivery">شراء عبر موصل (مبلغ رمزي)</button>
+        </div>
+
+        <!-- خيار 1: استلام المحل -->
+        <div id="pickup-view" class="checkout-view-content">
+          <div class="location-card">
+            <i data-lucide="map-pin" class="loc-icon"></i>
+            <div>
+              <strong>موقع المحل:</strong>
+              <p>تريم - السوق - عمائر باهاني - بجانب وكالة الغنا للهاتف النقال</p>
+            </div>
+          </div>
+          <form id="pickup-form">
+            <div class="form-group">
+              <label>الاسم الكريم:</label>
+              <input type="text" id="pickup-name" required placeholder="اكتب اسمك الثلاثي">
+            </div>
+            <div class="form-group">
+              <label>رقم الهاتف:</label>
+              <input type="tel" id="pickup-phone" required placeholder="77xxxxxxxx">
+            </div>
+            <button type="submit" class="btn-primary w-full">تأكيد حجز الكمية من المحل</button>
+          </form>
+        </div>
+
+        <!-- خيار 2: التوصيل -->
+        <div id="delivery-view" class="checkout-view-content hidden">
+          <form id="delivery-form">
+            <div class="form-group">
+              <label>الاسم بالكامل:</label>
+              <input type="text" id="del-name" required placeholder="اكتب اسم المستلم">
+            </div>
+            <div class="form-group">
+              <label>رقم الهاتف للتواصل:</label>
+              <input type="tel" id="del-phone" required placeholder="77xxxxxxxx">
+            </div>
+            <div class="form-group">
+              <label>المدينة / المنطقة:</label>
+              <input type="text" id="del-area" required placeholder="مثال: تريم - الحاوي - بجانب...">
+            </div>
+            <div class="form-group">
+              <label>الموقع الدقيق / معالم مميزة:</label>
+              <textarea id="del-notes" rows="2" placeholder="وصف البيت أو المحل لتسهيل وصول الموصل"></textarea>
+            </div>
+            <div class="delivery-notice">
+              <i data-lucide="bike"></i>
+              <span>يتم دفع قيمة التوصيل الرمزية للموصل عند الاستلام.</span>
+            </div>
+            <button type="submit" class="btn-primary w-full">تأكيد طلب التوصيل</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- نافذة المشتريات السابقة (Orders History Modal) -->
+    <div id="history-modal" class="modal-overlay hidden">
+      <div class="modal-sheet">
+        <div class="sheet-header">
+          <h3>سجل المشتريات السابقة</h3>
+          <button id="close-history-btn" class="modal-close-btn"><i data-lucide="x"></i></button>
+        </div>
+        <div class="history-list" id="history-container"></div>
+      </div>
+    </div>
+
+    <!-- نافذة المفضلة (Favorites Modal) -->
+    <div id="favorites-modal" class="modal-overlay hidden">
+      <div class="modal-sheet">
+        <div class="sheet-header">
+          <h3><i data-lucide="heart"></i> قائمة المفضلة</h3>
+          <button id="close-fav-btn" class="modal-close-btn"><i data-lucide="x"></i></button>
+        </div>
+        <div class="products-grid" id="favorites-grid"></div>
+      </div>
+    </div>
+
+    <!-- نافذة التواصل وحول المتجر (Contact & About Modal) -->
+    <div id="contact-modal" class="modal-overlay hidden">
+      <div class="modal-sheet contact-sheet">
+        <div class="sheet-header">
+          <h3>التواصل وحول النظام</h3>
+          <button id="close-contact-btn" class="modal-close-btn"><i data-lucide="x"></i></button>
+        </div>
+        <div class="contact-card">
+          <h4>محلات أنوار طيبة</h4>
+          <p>تريم - السوق - عمائر باهاني - بجانب وكالة الغنا للهاتف النقال</p>
+          <div class="contact-actions">
+            <a href="tel:+967770066782" class="contact-btn call"><i data-lucide="phone"></i> اتصال: 770066782</a>
+            <a href="https://wa.me/967770066782" target="_blank" class="contact-btn wa"><i data-lucide="message-circle"></i> واتساب المحل</a>
+          </div>
+        </div>
+
+        <div class="dev-card">
+          <h4>حول فريق التطوير</h4>
+          <p>تم تصميم وتطوير هذا النظام بواسطة Good Code بقيادة علي السياكل</p>
+          <div class="dev-contact">
+            <a href="tel:774257557" class="dev-link"><i data-lucide="phone-call"></i> 774257557</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FIXED MOBILE BOTTOM NAVIGATION BAR -->
+    <nav class="mobile-bottom-nav">
+      <button class="nav-item active" id="nav-home">
+        <i data-lucide="home"></i>
+        <span>الرئيسية</span>
+      </button>
+      <button class="nav-item" id="nav-categories">
+        <i data-lucide="layout-grid"></i>
+        <span>الرفوف</span>
+      </button>
+      <button class="nav-item center-highlight" id="nav-cart">
+        <div class="cart-icon-wrap">
+          <i data-lucide="shopping-cart"></i>
+          <span class="cart-badge" id="cart-badge">0</span>
+        </div>
+        <span>السلة</span>
+      </button>
+      <button class="nav-item" id="nav-favorites">
+        <i data-lucide="heart"></i>
+        <span>المفضلة</span>
+      </button>
+      <button class="nav-item" id="nav-contact">
+        <i data-lucide="headset"></i>
+        <span>التواصل</span>
+      </button>
+    </nav>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
